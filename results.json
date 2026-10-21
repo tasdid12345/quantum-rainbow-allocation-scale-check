@@ -1,0 +1,35 @@
+{
+  "question": "Does a class-free, feature-engineered gradient-boosting Q-function match or beat a classical MLP Q-network on multi-resource allocation as the number of items grows?",
+  "method": "Synthetic multi-dimensional knapsack MDP solved sequentially; fitted Q-iteration with a fixed transition budget; both Q-functions trained on identical transitions; evaluated by greedy rollout on held-out instances against a greedy+local-search reference.",
+  "dataset": {
+    "name": "Seeded synthetic multi-dimensional knapsack instances (numpy generator)",
+    "source_url": "numpy synthetic generator (no download); models: https://scikit-learn.org, https://lightgbm.readthedocs.io",
+    "n_rows": 600,
+    "n_train": 450,
+    "n_test": 150,
+    "same_as_paper": false,
+    "baseline_is_papers_method": false
+  },
+  "metric_name": "mean achieved value / greedy+local-search reference value on test instances",
+  "higher_is_better": true,
+  "baseline": "sklearn MLPRegressor (64,64) on standardised raw state-action features; classical Rainbow-DQN stand-in without distributional, dueling or quantum parts.",
+  "improved": "LightGBM regressor Q-function on engineered features (value-to-resource ratios, slack ratios, tightness, value and density ranks, feasible-item fraction, remaining capacity, item rank), same transitions and budget.",
+  "metrics": {
+    "baseline_score": 0.984206218678021,
+    "baseline_score_std": 0.00045918996808732334,
+    "baseline_feasibility_rate": 1.0,
+    "baseline_train_time_s": 25.30801526705424,
+    "baseline_score_n20": 0.9908161176579465,
+    "baseline_score_n50": 0.9859881748215625,
+    "baseline_score_n100": 0.9758143635545539,
+    "improved_score": 0.9872697329980049,
+    "improved_score_std": 0.0003318382205328572,
+    "improved_feasibility_rate": 1.0,
+    "improved_train_time_s": 55.068300008773804,
+    "improved_score_n20": 0.9858062286867403,
+    "improved_score_n50": 0.9856681071101395,
+    "improved_score_n100": 0.9903348631971346,
+    "improvement": 0.003063514319983862
+  },
+  "notes": "Synthetic instances, not the paper's data; the paper's quantum model is not reproduced. Hyper-parameters are fixed a priori and nothing was tuned on the test set. Feasibility is enforced by action masking, so feasibility rate is a sanity check. Reference is a heuristic, so ratios can exceed 1. Only 3 seeds and 50 test instances per size: differences are noisy."
+}
