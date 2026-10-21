@@ -21,6 +21,32 @@ evaluation are unchanged.
 Limitations: synthetic data, not the paper's dataset; the paper's quantum model is not reproduced;
 only 3 seeds and 50 test instances per size, so differences are noisy.
 
+## Results (latest run)
+
+On seeded synthetic multi-dimensional knapsack instances, the standard MLP Q-network stand-in for a classical Rainbow DQN reached a mean value ratio of 0.984 on held-out test instances, while the feature-engineered LightGBM Q-function reached 0.987, a small, noisy gain of 0.003 across only 3 seeds.
+
+| Metric | Value |
+|---|---|
+| baseline_score | 0.9842 |
+| baseline_score_std | 0.0004592 |
+| baseline_feasibility_rate | 1 |
+| baseline_train_time_s | 25.31 |
+| baseline_score_n20 | 0.9908 |
+| baseline_score_n50 | 0.986 |
+| baseline_score_n100 | 0.9758 |
+| improved_score | 0.9873 |
+| improved_score_std | 0.0003318 |
+| improved_feasibility_rate | 1 |
+| improved_train_time_s | 55.07 |
+| improved_score_n20 | 0.9858 |
+| improved_score_n50 | 0.9857 |
+| improved_score_n100 | 0.9903 |
+| improvement | 0.003064 |
+
+Run on 2026-10-21. Full output: [results.json](results.json) · [run.log](run.log)
+
+Notes: Synthetic instances, not the paper's data; the paper's quantum model is not reproduced. Hyper-parameters are fixed a priori and nothing was tuned on the test set. Feasibility is enforced by action masking, so feasibility rate is a sanity check. Reference is a heuristic, so ratios can exceed 1. Only 3 seeds and 50 test instances per size: differences are noisy.
+
 ## Reference
 
 This project is motivated by the following paper:
