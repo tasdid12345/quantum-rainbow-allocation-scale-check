@@ -1,22 +1,25 @@
-# Engineered LightGBM Q-function vs MLP Q-network for multi-resource allocation
+# Quantum rainbow allocation scale check
 
-This experiment is motivated by "Variational Quantum Rainbow Deep Q-Network for Optimizing Resource Allocation Problem" (2026), which proposes a quantum-enhanced Rainbow DQN for resource allocation. We ask whether a classical, class-free alternative can match a standard DQN-style baseline without any quantum circuit, and whether its advantage changes with problem size.
+Question: does a class-free, feature-engineered LightGBM Q-regressor match or beat a classical
+MLP Q-network (Rainbow-DQN stand-in) on sequential multi-dimensional knapsack allocation as the
+number of items grows (n = 20, 50, 100)?
 
-**Question:** Does a class-free, feature-engineered gradient-boosting Q-function match or beat a classical MLP Q-network on a multi-resource allocation problem as the number of items grows?
+Run:
 
-**Dataset:** Seeded synthetic multi-dimensional knapsack instances with three resource constraints, generated with numpy at run time. This is not the paper's dataset, which is not stated.
+    pip install -r requirements.txt
+    python analysis.py
 
-**Baseline:** An sklearn MLPRegressor Q-network on standardised raw state-action features, trained by fitted Q-iteration. It is a classical stand-in for Rainbow DQN with no distributional, dueling or quantum components.
+The script generates synthetic instances with a fixed seed, trains both Q-functions by fitted
+Q-iteration on identical transitions, evaluates greedy rollouts on held-out instances against a
+greedy + local-search reference, and writes `results.json` and `figures/score_by_size.png`.
 
-**Improved model:** A LightGBM Q-regressor trained on the same transitions with the same budget. It adds engineered features: value-to-resource ratios, slack ratios, resource tightness, value and density ranks, and the feasible-item fraction.
+Fix note: the baseline `MLPRegressor` now passes `hidden_layer_sizes=(64, 64)` as a keyword.
+Recent scikit-learn releases no longer accept the layer sizes as the first positional argument
+(it is interpreted as `loss`), which caused the exit-code-1 failure. The model, data, split and
+evaluation are unchanged.
 
-**How to run**
-```
-pip install -r requirements.txt
-python analysis.py
-```
-
-**Results:** Results are written to `results.json`. Charts are saved to `figures/`.
+Limitations: synthetic data, not the paper's dataset; the paper's quantum model is not reproduced;
+only 3 seeds and 50 test instances per size, so differences are noisy.
 
 ## Reference
 

@@ -90,7 +90,8 @@ def make_model(family, seed):
     """Baseline: standardised MLP Q-network. Improved: LightGBM Q-regressor."""
     if family == "mlp":
         return make_pipeline(StandardScaler(),
-                             MLPRegressor((64, 64), max_iter=200, random_state=seed))
+                             MLPRegressor(hidden_layer_sizes=(64, 64), max_iter=200,
+                                          random_state=seed))
     return lgb.LGBMRegressor(n_estimators=300, learning_rate=0.05, num_leaves=31,
                              subsample=0.8, subsample_freq=1, colsample_bytree=0.8,
                              random_state=seed, verbose=-1)
